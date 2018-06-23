@@ -14,10 +14,16 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^7.0.0-0",
     "babel-jest": "^23.0.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^23.1.0"
   },
   "dependencies": {
+    "draft-js": "^0.10.5",
+    "immutable": "^4.0.0-rc.9",
     "pg": "^7.4.3",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "typeorm": "^0.2.7"
   },
   "jest": {
