@@ -1,0 +1,9 @@
+{
+  "name": "learn-jest",
+  "version": "1.0.0",
+  "description": "Simple Utility Test from Jest Docs",
+  "main": "index.js",
+  "repository": "https://github.com/khpatel4991/learn-jest.git",
+  "author": "Kashyap Patel",
+  "license": "MIT"
+}
