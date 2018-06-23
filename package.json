@@ -5,5 +5,17 @@
   "main": "index.js",
   "repository": "https://github.com/khpatel4991/learn-jest.git",
   "author": "Kashyap Patel",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.51",
+    "@babel/preset-env": "^7.0.0-beta.51",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "^23.0.1",
+    "jest": "^23.1.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  }
 }
