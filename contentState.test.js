@@ -57,7 +57,7 @@ const cb = (first, ...rest) => {
   return new ContentBlock(TEST_BLOCK_NODE);
 };
 
-const cs = (text = "") => {
+export const cs = (text = "") => {
   return ContentState.createFromText(text);
 }
 
@@ -92,63 +92,4 @@ describe("Content State Builder", () => {
     const _cs = cs(NEW_LINE_TEXT);
     expect(_cs.getBlockMap().size).toBe(2);
   });
-});
-
-const applyCorrection = (contentState, correction, blockKey = "") => {
-  const applicable = correction.get("applicable");
-  if(!applicable) {
-    return contentState;
-  }
-  const withEntity = contentState.createEntity(
-    "CORRECTION",
-    "MUTABLE",
-    {},
-  );
-  const entityKey = withEntity.getLastCreatedEntityKey();
-  const selectionRange = SelectionState.createEmpty(blockKey).merge({
-    anchorOffset: 0,
-    focusOffset: 4,
-  });
-  return Modifier.applyEntity(
-    withEntity,
-    selectionRange,
-    entityKey
-  );
-}
-
-describe("Apply Entity to Content State", () => {
-  const TEXT = "Wst World";
-  const _cs = cs(TEXT);
-  const NONAPPLICABLE_CORRECTION = Map({
-    startOffset: 0,
-    applied: -1,
-    applicable: false,
-    blockKey: "blockKey",
-    transformations: [
-      { s: "Wst", sa: " ", t: "West", ta: " " },
-    ],
-  });
-
-  const APPLICABLE_CORRECTION = Map({
-    startOffset: 0,
-    applied: -1,
-    applicable: true,
-    blockKey: "blockKey",
-    transformations: [
-      { s: "Wst", sa: " ", t: "West", ta: " " },
-    ],
-  });
-
-  test("returns same content state for non-applicable correction", () => {
-    const cse = applyCorrection(_cs, NONAPPLICABLE_CORRECTION);
-    expect(cse).toBe(_cs);
-  });
-
-  test("sets an entity for applicable correction on a block", () => {
-    const _csLastKey = _cs.getLastCreatedEntityKey();
-    const blockKey = _cs.getFirstBlock().getKey();
-    const cse = applyCorrection(_cs, APPLICABLE_CORRECTION, blockKey);
-    expect(_csLastKey === cse.getLastCreatedEntityKey()).toBeFalsy();
-  });
-
 });
