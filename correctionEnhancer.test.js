@@ -1,8 +1,8 @@
 import { List, Map } from "immutable";
-import mergeCorrectionOffset from "./mergeCorrectionOffset";
+import correctionEnhancer from "./correctionEnhancer";
 
-describe("Injects startoffset from sentences", () => {
-  test("merge correct startOffset", () => {
+describe("Correction Enhancer for applying Entities", () => {
+  test("Merge startOffset based on sentence tokens.", () => {
     const sentence = List([
       { id: 1, value: "he", after: " " },
       { id: 2, value: "hould", after: " " },
@@ -11,16 +11,17 @@ describe("Injects startoffset from sentences", () => {
     ]);
     const c = Map({ 
       applied: -1,
+      tokensAffected: [{ id: 2, value: "hould", after: " " }],
       transformations: [
-        { tokensAffected: [{ id: 2, value: "hould", after: " " }], tokensAdded: [{ id: 6, value: "would", after: " " }] },
-        { tokensAffected: [{ id: 2, value: "hould", after: " " }], tokensAdded: [{ id: 6, value: "could", after: " " }] },
+        { tokensAdded: [{ id: 6, value: "would", after: " " }] },
+        { tokensAdded: [{ id: 6, value: "could", after: " " }] },
       ],
     });
-    const expected = mergeCorrectionOffset(sentence, c);
+    const expected = correctionEnhancer(sentence, c);
     expect(expected.get("startOffset")).toBe(3);
   });
 
-  test("merge correct entity text and after with base at the end", () => {
+  test("merge correct entity `text` and `after` lists.", () => {
     const sentence = List([
       { id: 1, value: "he", after: " " },
       { id: 2, value: "hould", after: " " },
@@ -29,12 +30,13 @@ describe("Injects startoffset from sentences", () => {
     ]);
     const c = Map({ 
       applied: -1,
+      tokensAffected: [{ id: 2, value: "hould", after: " " }],
       transformations: [
-        { tokensAffected: [{ id: 2, value: "hould", after: " " }], tokensAdded: [{ id: 6, value: "would", after: " " }] },
-        { tokensAffected: [{ id: 2, value: "hould", after: " " }], tokensAdded: [{ id: 6, value: "could", after: " " }] },
+        { tokensAdded: [{ id: 6, value: "would", after: " " }] },
+        { tokensAdded: [{ id: 6, value: "could", after: " " }] },
       ],
     });
-    const expected = mergeCorrectionOffset(sentence, c);
+    const expected = correctionEnhancer(sentence, c);
     expect(expected.get("a").size).toBe(3);
     expect(expected.get("t").size).toBe(3);
     expect(expected.getIn(["t", 0])).toBe("would");

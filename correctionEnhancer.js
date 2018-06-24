@@ -9,19 +9,20 @@ const joinTokensSkipLast = tokens => tokens.reduce((acc, t, i) => {
   return acc + t.value + t.after;
 }, "");
 
-const mergeCorrectionOffset = (sentence, correction) => {
+const correctionEnhancer = (sentence, correction) => {
   const applied = correction.get("applied");
   const trms = correction.get("transformations");
-  const targetTokens = applied === -1 ? trms[0].tokensAffected : trms[applied].tokensAdded;
+  const tokensAffected = correction.get("tokensAffected");
+  const targetTokens = applied === -1 ? tokensAffected : trms[applied].tokensAdded;
   const firstId = targetTokens[0].id;
   const pre = sentence.takeUntil(s => s.id === firstId);
   const startOffset = joinTokens(pre).length;
-  const t = List(trms.map(tr => joinTokensSkipLast(tr.tokensAdded)).concat([joinTokensSkipLast(trms[0].tokensAffected)]));
-  const a = List(trms.map(tr => extractLastAfter(tr.tokensAdded)).concat([extractLastAfter(trms[0].tokensAffected)]));
+  const t = trms.map(tr => joinTokensSkipLast(tr.tokensAdded)).concat([joinTokensSkipLast(tokensAffected)]);
+  const a = trms.map(tr => extractLastAfter(tr.tokensAdded)).concat([extractLastAfter(tokensAffected)]);
   return correction
     .set("startOffset", startOffset)
-    .set("t", t)
-    .set("a", a);
+    .set("t", List(t))
+    .set("a", List(a));
 };
 
-export default mergeCorrectionOffset;
+export default correctionEnhancer;

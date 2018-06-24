@@ -84,6 +84,8 @@ describe("applyCorrections: Create an Entity for Correction/s", () => {
       [c2.get("signature"), c2],
     ]);
     const { contentState: after, enhanced } = applyCorrections(before, corrections);
+    const first = enhanced.first();
+    console.log(first.get("startOffset"));
     const last = enhanced.last();
     const start = last.get("startOffset");
     const end = start + last.getIn(["t", last.get("applied")]).length;
