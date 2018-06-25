@@ -21,6 +21,7 @@
   "dependencies": {
     "draft-js": "^0.10.5",
     "immutable": "^4.0.0-rc.9",
+    "lodash": "^4.17.10",
     "pg": "^7.4.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

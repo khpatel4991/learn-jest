@@ -3,7 +3,7 @@ import { Modifier, SelectionState } from "draft-js";
 const rangeFromCorrection = correction => {
   const blockKey = correction.get("blockKey");
   const applied = correction.get("applied");
-  const startOffset = correction.get("startOffset");
+  const startOffset = correction.get("startOffset") + correction.get("sentenceStartOffset");
   const text = correction.getIn(["t", applied]);
   return SelectionState.createEmpty(blockKey).merge({
     anchorOffset: startOffset,
