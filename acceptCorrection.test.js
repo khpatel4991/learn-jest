@@ -27,11 +27,12 @@ describe("Accept Correction", () => {
   describe("Reflect new Sentence Tokens", () => {
     test("replace tokensAffected with tokensAdded of new Applied Index in sentenceTokens", () => {
       const actual = modifySentenceTokens(sentencesTokens, c, nai);
-      const expected = List([
+      const nst = List([
         { id: 1, value: "Hey,", after: " " },
         { id: 3, value: "Delilah", after: "" },
         { id: 4, value: "!", after: "" },
       ]);
+      const expected = List([nst]);
       expect(actual).toEqual(expected);
     });
   });

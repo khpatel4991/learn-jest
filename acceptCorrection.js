@@ -18,7 +18,12 @@ export const modifySentenceTokens = (sentencesTokens, correction, trmIndex) => {
   const sentenceTokens = sentencesTokens.get(sentenceIndex);
   const toRemove = correction.get("tokensAffected");
   const toAdd = correction.get("transformations")[trmIndex].tokensAdded;
-  return replaceTokens(sentenceTokens, toAdd, toRemove);
+  const pre = sentencesTokens.slice(0, sentenceIndex);
+  const suff = sentencesTokens.slice(sentenceIndex + 1);
+  return pre
+    .concat([replaceTokens(sentenceTokens, toAdd, toRemove)])
+    .concat(suff);
+  // return replaceTokens(sentenceTokens, toAdd, toRemove);
 }
 
 export const modifyCorrectionList = (corrections, signature, trmIndex) => {
